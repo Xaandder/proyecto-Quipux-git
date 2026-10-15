@@ -6,6 +6,7 @@ Uso:
     python todo.py agregar "Aprender Git"
     python todo.py listar
     python todo.py hecha 1
+    python todo.py eliminar 1
 """
 
 import argparse
@@ -43,13 +44,26 @@ def agregar_tarea(tareas, texto):
     return tarea
 
 
-def completar_tarea(tareas, id_tarea):
-    """Marca como hecha la tarea con ese id y la devuelve."""
+def buscar_tarea(tareas, id_tarea):
+    """Devuelve la tarea con ese id o lanza LookupError si no existe."""
     for tarea in tareas:
         if tarea["id"] == id_tarea:
-            tarea["hecha"] = True
             return tarea
     raise LookupError(f"No existe la tarea {id_tarea}")
+
+
+def completar_tarea(tareas, id_tarea):
+    """Marca como hecha la tarea con ese id y la devuelve."""
+    tarea = buscar_tarea(tareas, id_tarea)
+    tarea["hecha"] = True
+    return tarea
+
+
+def eliminar_tarea(tareas, id_tarea):
+    """Quita la tarea con ese id de la lista y la devuelve."""
+    tarea = buscar_tarea(tareas, id_tarea)
+    tareas.remove(tarea)
+    return tarea
 
 
 def formatear_tarea(tarea):
@@ -71,6 +85,9 @@ def main(argv=None):
     p_hecha = sub.add_parser("hecha", help="Marca una tarea como hecha")
     p_hecha.add_argument("id", type=int, help="Número de la tarea")
 
+    p_eliminar = sub.add_parser("eliminar", help="Elimina una tarea")
+    p_eliminar.add_argument("id", type=int, help="Número de la tarea")
+
     args = parser.parse_args(argv)
     tareas = cargar_tareas(ARCHIVO)
 
@@ -88,6 +105,10 @@ def main(argv=None):
             tarea = completar_tarea(tareas, args.id)
             guardar_tareas(tareas, ARCHIVO)
             print(f"Tarea completada: {formatear_tarea(tarea)}")
+        elif args.comando == "eliminar":
+            tarea = eliminar_tarea(tareas, args.id)
+            guardar_tareas(tareas, ARCHIVO)
+            print(f"Tarea eliminada: {formatear_tarea(tarea)}")
     except (ValueError, LookupError) as error:
         print(f"Error: {error}")
         return 1
