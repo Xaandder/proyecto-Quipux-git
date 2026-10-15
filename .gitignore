@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Datos locales del programa (cada persona tiene los suyos)
+tareas.json
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
