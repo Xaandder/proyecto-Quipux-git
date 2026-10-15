@@ -42,6 +42,15 @@ def agregar_tarea(tareas, texto):
     return tarea
 
 
+def completar_tarea(tareas, id_tarea):
+    """Marca como hecha la tarea con ese id y la devuelve."""
+    for tarea in tareas:
+        if tarea["id"] == id_tarea:
+            tarea["hecha"] = True
+            return tarea
+    raise LookupError(f"No existe la tarea {id_tarea}")
+
+
 def formatear_tarea(tarea):
     """Devuelve la tarea como texto, por ejemplo: [ ] 1. Aprender Git"""
     marca = "x" if tarea["hecha"] else " "
