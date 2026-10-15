@@ -18,3 +18,5 @@ python todo.py eliminar 1
 ```bash
 python -m unittest -v
 ```
+
+## Estado\n\nEl proyecto está listo para practicar Git y automatizar con OpenCode.
