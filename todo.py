@@ -43,13 +43,19 @@ def agregar_tarea(tareas, texto):
     return tarea
 
 
-def completar_tarea(tareas, id_tarea):
-    """Marca como hecha la tarea con ese id y la devuelve."""
+def buscar_tarea(tareas, id_tarea):
+    """Devuelve la tarea con ese id o lanza LookupError si no existe."""
     for tarea in tareas:
         if tarea["id"] == id_tarea:
-            tarea["hecha"] = True
             return tarea
     raise LookupError(f"No existe la tarea {id_tarea}")
+
+
+def completar_tarea(tareas, id_tarea):
+    """Marca como hecha la tarea con ese id y la devuelve."""
+    tarea = buscar_tarea(tareas, id_tarea)
+    tarea["hecha"] = True
+    return tarea
 
 
 def formatear_tarea(tarea):
