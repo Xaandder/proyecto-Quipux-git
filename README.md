@@ -1,6 +1,6 @@
 # Gestor de tareas
 
-Un gestor de tareas sencillo hecho en Python.
+Un gestor de tareas sencillo para practicar Git.
 
 Proyecto de práctica para aprender buenas prácticas de Git.
 
