@@ -5,6 +5,7 @@ Las tareas se guardan en un archivo llamado tareas.json.
 Uso:
     python todo.py agregar "Aprender Git"
     python todo.py listar
+    python todo.py hecha 1
 """
 
 import argparse
@@ -67,6 +68,9 @@ def main(argv=None):
 
     sub.add_parser("listar", help="Muestra todas las tareas")
 
+    p_hecha = sub.add_parser("hecha", help="Marca una tarea como hecha")
+    p_hecha.add_argument("id", type=int, help="Número de la tarea")
+
     args = parser.parse_args(argv)
     tareas = cargar_tareas(ARCHIVO)
 
@@ -80,7 +84,11 @@ def main(argv=None):
                 print("No hay tareas todavía.")
             for tarea in tareas:
                 print(formatear_tarea(tarea))
-    except ValueError as error:
+        elif args.comando == "hecha":
+            tarea = completar_tarea(tareas, args.id)
+            guardar_tareas(tareas, ARCHIVO)
+            print(f"Tarea completada: {formatear_tarea(tarea)}")
+    except (ValueError, LookupError) as error:
         print(f"Error: {error}")
         return 1
     return 0
